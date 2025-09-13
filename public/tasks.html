@@ -4,24 +4,24 @@
   <meta charset="UTF-8">
   <title>FPBOFM — Ежедневные задания</title>
   <link rel="stylesheet" href="styles/base.css">
-  <link rel="stylesheet" href="styles/components.css">
   <link rel="stylesheet" href="styles/layout.css">
+  <link rel="stylesheet" href="styles/components.css">
   <link rel="stylesheet" href="styles/pages.css">
+  <script type="module" src="js/utils/header.js"></script>
+  <script type="module" src="js/pages/tasks.page.js"></script>
 </head>
 <body>
   <header></header>
 
   <main class="container">
-    <h1>Ежедневные задания</h1>
-    <p>Выполняй задания и получай награды!</p>
+    <h1>🎯 Ежедневные задания</h1>
+    <p>Выполняй миссии и получай награды!</p>
 
-    <div id="tasks-list" class="grid"></div>
+    <ul id="tasks-list" class="task-list"></ul>
   </main>
 
-  <script type="module" src="js/pages/tasks.page.js"></script>
-  <script type="module">
-    import { renderHeader } from "./js/utils/header.js";
-    renderHeader();
-  </script>
+  <footer class="footer">
+    <p>© 2025 FPBOFM. Все права защищены.</p>
+  </footer>
 </body>
 </html>

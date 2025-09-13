@@ -1,5 +1,6 @@
 import { getProfile, logout } from '../api/auth.api.js';
 import { http } from '../api/http.js';
+console.log("header.js загружен");
 
 export async function renderHeader() {
   const header = document.querySelector('header');

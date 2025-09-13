@@ -4,29 +4,29 @@
   <meta charset="UTF-8">
   <title>FPBOFM — Гача</title>
   <link rel="stylesheet" href="styles/base.css">
-  <link rel="stylesheet" href="styles/components.css">
   <link rel="stylesheet" href="styles/layout.css">
+  <link rel="stylesheet" href="styles/components.css">
   <link rel="stylesheet" href="styles/pages.css">
+  <script type="module" src="js/utils/header.js"></script>
+  <script type="module" src="js/pages/gacha.page.js"></script>
 </head>
 <body>
   <header></header>
 
   <main class="container">
-    <h1>Гача</h1>
-    <p>Испытай удачу! Открывай яйца или сундуки и получай существ.</p>
+    <h1>🥚 Гача</h1>
+    <p>Испытай удачу: открывай яйца или сундуки и получай уникальных существ!</p>
 
-    <div class="actions">
-      <button id="open-egg" class="btn">Открыть яйцо</button>
-      <button id="open-chest" class="btn">Открыть сундук</button>
+    <div class="gacha-actions">
+      <button id="buy-egg" class="btn">Купить яйцо (200 монет)</button>
+      <button id="buy-chest" class="btn">Купить сундук (1000 монет)</button>
     </div>
 
-    <div id="gacha-result" class="card hidden"></div>
+    <div id="gacha-result" class="gacha-result"></div>
   </main>
 
-  <script type="module" src="js/pages/gacha.page.js"></script>
-  <script type="module">
-    import { renderHeader } from "./js/utils/header.js";
-    renderHeader();
-  </script>
+  <footer class="footer">
+    <p>© 2025 FPBOFM. Все права защищены.</p>
+  </footer>
 </body>
 </html>
