@@ -1,27 +1,18 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="utf-8"/>
-  <title>FPBOFM — Галерея</title>
-  <link rel="stylesheet" href="/styles/base.css"/>
-  <link rel="stylesheet" href="/styles/layout.css"/>
+  <meta charset="UTF-8">
+  <title>FPBOFM - Галерея</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="header.js" defer></script>
+  <script src="http.js" defer></script>
+  <script src="gallery.js" defer></script>
 </head>
 <body>
-<header class="topbar"></header>
-<main class="container">
-  <h1>Галерея существ</h1>
-  <div id="gallery" class="grid cols-4"></div>
-</main>
-<script type="module">
-import { http } from '/js/api/http.js';
-import { renderHeader } from '/js/header.js';
-import { store } from '/js/state/store.js';
-await store.ensureAuth();
-renderHeader();
-
-const list = await http('/gallery');
-document.getElementById('gallery').innerHTML =
-  list.map(c => `<div class="card"><h3>${c.name}</h3><p>${c.rarity}</p></div>`).join('');
-</script>
+  <main class="container">
+    <h1>📖 Галерея существ</h1>
+    <p>Справочник по всем существам, которые можно выбить.</p>
+    <div id="gallery-list" class="grid"></div>
+  </main>
 </body>
 </html>

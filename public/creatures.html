@@ -1,35 +1,18 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="utf-8"/>
-  <title>FPBOFM — Мои существа</title>
-  <link rel="stylesheet" href="/styles/base.css"/>
-  <link rel="stylesheet" href="/styles/layout.css"/>
-  <link rel="stylesheet" href="/styles/components.css"/>
+  <meta charset="UTF-8">
+  <title>FPBOFM - Существа</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="header.js" defer></script>
+  <script src="http.js" defer></script>
+  <script src="creatures.js" defer></script>
 </head>
 <body>
-<header class="topbar"></header>
-<main class="container">
-  <h1>Мои существа</h1>
-  <div id="creatures" class="grid cols-3"></div>
-</main>
-<script type="module">
-import { http } from '/js/api/http.js';
-import { renderHeader } from '/js/header.js';
-import { store } from '/js/state/store.js';
-await store.ensureAuth();
-renderHeader();
-
-const list = await http('/creatures');
-document.getElementById('creatures').innerHTML = list.length
-  ? list.map(c => `
-    <div class="card">
-      <h3>${c.spec?.name ?? '???'}</h3>
-      <p>Звёзды: ${c.stars ?? 0}</p>
-      <p>Уровень: ${c.level ?? 1}</p>
-    </div>
-  `).join('')
-  : '<p>У вас пока нет существ. Попробуйте открыть яйцо!</p>';
-</script>
+  <main class="container">
+    <h1>🐉 Мои существа</h1>
+    <p>Здесь отображаются все твои существа. Объединяй повторки, повышай звезды и готовься к сражениям!</p>
+    <div id="creature-list" class="grid"></div>
+  </main>
 </body>
 </html>

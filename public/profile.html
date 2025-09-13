@@ -1,35 +1,18 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="utf-8" />
-  <title>Личный кабинет — FPBOFM</title>
-  <link rel="stylesheet" href="/styles/base.css" />
-  <link rel="stylesheet" href="/styles/layout.css" />
+  <meta charset="UTF-8">
+  <title>FPBOFM - Профиль</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="header.js" defer></script>
+  <script src="http.js" defer></script>
+  <script src="profile.js" defer></script>
 </head>
 <body>
-  <header class="topbar"></header>
-
   <main class="container">
-    <h1>Личный кабинет</h1>
-    <div id="profile"></div>
+    <h1>👤 Личный кабинет</h1>
+    <div id="profile-info"></div>
+    <button id="logout" class="btn">Выйти</button>
   </main>
-
-  <script type="module">
-    import { apiAuth } from '/js/api/auth.api.js';
-    import { store } from '/js/state/store.js';
-    import { renderHeader } from '/js/header.js';
-    await store.ensureAuth();
-    renderHeader();
-
-    try {
-      const me = await apiAuth.me();
-      document.getElementById('profile').innerHTML =
-        `<p>Логин: ${me.username}</p>
-         <p>Email: ${me.email}</p>
-         <p>Баланс: ${me.wallet?.balance ?? 0}</p>`;
-    } catch {
-      location.href = '/login.html';
-    }
-  </script>
 </body>
 </html>

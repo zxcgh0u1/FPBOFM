@@ -1,33 +1,18 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="utf-8"/>
-  <title>FPBOFM — Задания</title>
-  <link rel="stylesheet" href="/styles/base.css"/>
-  <link rel="stylesheet" href="/styles/layout.css"/>
+  <meta charset="UTF-8">
+  <title>FPBOFM - Задания</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="header.js" defer></script>
+  <script src="http.js" defer></script>
+  <script src="tasks.js" defer></script>
 </head>
 <body>
-<header class="topbar"></header>
-<main class="container">
-  <h1>Задания</h1>
-  <button id="claim-daily">Забрать ежедневную награду</button>
-  <div id="status"></div>
-</main>
-<script type="module">
-import { http } from '/js/api/http.js';
-import { renderHeader } from '/js/header.js';
-import { store } from '/js/state/store.js';
-await store.ensureAuth();
-renderHeader();
-
-document.getElementById('claim-daily').onclick = async () => {
-  try {
-    const r = await http('/tasks/daily', { method: 'POST' });
-    document.getElementById('status').innerHTML = `Получено ${r.reward} монет!`;
-  } catch (e) {
-    document.getElementById('status').innerHTML = `<span style="color:red;">${e.message}</span>`;
-  }
-};
-</script>
+  <main class="container">
+    <h1>🎯 Ежедневные задания</h1>
+    <ul id="task-list" class="tasks"></ul>
+    <button id="claim-daily" class="btn">💰 Забрать ежедневную награду</button>
+  </main>
 </body>
 </html>

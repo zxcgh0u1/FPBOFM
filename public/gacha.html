@@ -1,37 +1,22 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="utf-8"/>
-  <title>FPBOFM — Гача</title>
-  <link rel="stylesheet" href="/styles/base.css"/>
-  <link rel="stylesheet" href="/styles/layout.css"/>
+  <meta charset="UTF-8">
+  <title>FPBOFM - Гача</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="header.js" defer></script>
+  <script src="http.js" defer></script>
+  <script src="gacha.js" defer></script>
 </head>
 <body>
-<header class="topbar"></header>
-<main class="container">
-  <h1>Гача</h1>
-  <button id="open-egg">Открыть яйцо</button>
-  <button id="open-chest">Открыть сундук</button>
-  <div id="result"></div>
-</main>
-<script type="module">
-import { http } from '/js/api/http.js';
-import { renderHeader } from '/js/header.js';
-import { store } from '/js/state/store.js';
-await store.ensureAuth();
-renderHeader();
-
-const box = document.getElementById('result');
-async function open(kind) {
-  try {
-    const r = await http('/gachas/' + kind, { method: 'POST' });
-    box.innerHTML = `<p>Выпал: <b>${r.name}</b> (${r.rarity})</p>`;
-  } catch (e) {
-    box.innerHTML = `<p style="color:red;">${e.message}</p>`;
-  }
-}
-document.getElementById('open-egg').onclick = () => open('egg');
-document.getElementById('open-chest').onclick = () => open('chest');
-</script>
+  <main class="container">
+    <h1>🎁 Гача</h1>
+    <p>Потрать монеты и открой яйца или сундуки. Что выпадет — решает удача!</p>
+    <div class="gacha-options">
+      <button id="buy-egg" class="btn">🐣 Купить яйцо (200 монет)</button>
+      <button id="buy-chest" class="btn">🗝 Купить сундук (1000 монет)</button>
+    </div>
+    <div id="gacha-result" class="gacha-result"></div>
+  </main>
 </body>
 </html>

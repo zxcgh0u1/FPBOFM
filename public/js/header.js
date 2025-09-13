@@ -1,30 +1,40 @@
-import { store } from '/js/state/store.js';
+import { getProfile, logout } from '../api/auth.api.js';
+import { http } from '../api/http.js';
 
-export function renderHeader() {
-  const header = document.querySelector('.topbar');
+export async function renderHeader() {
+  const header = document.querySelector('header');
   if (!header) return;
 
-  const user = store.user;
+  try {
+    const user = await getProfile();
 
-  header.innerHTML = `
-    <a class="logo" href="/">FPBOFM</a>
-    <nav>
-      <a href="/gacha.html">Гача</a>
-      <a href="/creatures.html">Существа</a>
-      <a href="/battles.html">Бои</a>
-      <a href="/tasks.html">Ежедневки</a>
-      <a href="/gallery.html">Галерея</a>
-      <a href="/profile.html">Личный кабинет</a>
-      ${user ? `<a href="#" id="logout-link">Выйти</a>` : `<a href="/login.html">Войти</a>`}
-    </nav>
-  `;
+    header.innerHTML = `
+      <div class="logo">FPBOFM</div>
+      <nav>
+        <a href="gacha.html">Гача</a>
+        <a href="creatures.html">Существа</a>
+        <a href="battles.html">Бои</a>
+        <a href="tasks.html">Ежедневки</a>
+        <a href="gallery.html">Галерея</a>
+        <a href="profile.html">Личный кабинет</a>
+        <a href="admin.html">Админ</a>
+        <span class="user-info">💰 ${user.wallet.balance} монет</span>
+        <a href="#" id="logout">Выйти</a>
+      </nav>
+    `;
 
-  const logoutLink = document.getElementById('logout-link');
-  if (logoutLink) {
-    logoutLink.addEventListener('click', e => {
+    document.querySelector('#logout').addEventListener('click', (e) => {
       e.preventDefault();
-      localStorage.removeItem('token');
-      location.href = '/login.html';
+      logout();
+      window.location.href = 'login.html';
     });
+  } catch {
+    header.innerHTML = `
+      <div class="logo">FPBOFM</div>
+      <nav>
+        <a href="login.html">Войти</a>
+        <a href="register.html">Регистрация</a>
+      </nav>
+    `;
   }
 }
