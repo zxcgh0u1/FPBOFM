@@ -2,22 +2,30 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <title>FPBOFM - Регистрация</title>
-  <link rel="stylesheet" href="style.css">
-  <script src="header.js" defer></script>
-  <script src="http.js" defer></script>
-  <script src="register.js" defer></script>
+  <title>FPBOFM — Регистрация</title>
+  <link rel="stylesheet" href="styles/base.css">
+  <link rel="stylesheet" href="styles/components.css">
+  <link rel="stylesheet" href="styles/layout.css">
+  <link rel="stylesheet" href="styles/pages.css">
 </head>
 <body>
+  <header></header>
+
   <main class="container">
-    <form id="register-form">
-      <h2>📝 Регистрация</h2>
-      <input type="text" id="username" placeholder="Никнейм" required>
-      <input type="email" id="email" placeholder="Email" required>
-      <input type="password" id="password" placeholder="Пароль" required>
-      <button type="submit" class="btn">Зарегистрироваться</button>
-      <p>Уже есть аккаунт? <a href="login.html">Войти</a></p>
+    <h1>Регистрация</h1>
+    <form id="register-form" class="card">
+      <input type="text" name="username" placeholder="Ник" required>
+      <input type="email" name="email" placeholder="Email" required>
+      <input type="password" name="password" placeholder="Пароль" required>
+      <button type="submit" class="btn">Создать аккаунт</button>
     </form>
+    <p>Уже есть аккаунт? <a href="login.html">Войти</a></p>
   </main>
+
+  <script type="module" src="js/pages/register.page.js"></script>
+  <script type="module">
+    import { renderHeader } from "./js/utils/header.js";
+    renderHeader();
+  </script>
 </body>
 </html>

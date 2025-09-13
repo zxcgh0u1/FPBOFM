@@ -2,21 +2,31 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <title>FPBOFM - Гача</title>
-  <link rel="stylesheet" href="style.css">
-  <script src="header.js" defer></script>
-  <script src="http.js" defer></script>
-  <script src="gacha.js" defer></script>
+  <title>FPBOFM — Гача</title>
+  <link rel="stylesheet" href="styles/base.css">
+  <link rel="stylesheet" href="styles/components.css">
+  <link rel="stylesheet" href="styles/layout.css">
+  <link rel="stylesheet" href="styles/pages.css">
 </head>
 <body>
+  <header></header>
+
   <main class="container">
-    <h1>🎁 Гача</h1>
-    <p>Потрать монеты и открой яйца или сундуки. Что выпадет — решает удача!</p>
-    <div class="gacha-options">
-      <button id="buy-egg" class="btn">🐣 Купить яйцо (200 монет)</button>
-      <button id="buy-chest" class="btn">🗝 Купить сундук (1000 монет)</button>
+    <h1>Гача</h1>
+    <p>Испытай удачу! Открывай яйца или сундуки и получай существ.</p>
+
+    <div class="actions">
+      <button id="open-egg" class="btn">Открыть яйцо</button>
+      <button id="open-chest" class="btn">Открыть сундук</button>
     </div>
-    <div id="gacha-result" class="gacha-result"></div>
+
+    <div id="gacha-result" class="card hidden"></div>
   </main>
+
+  <script type="module" src="js/pages/gacha.page.js"></script>
+  <script type="module">
+    import { renderHeader } from "./js/utils/header.js";
+    renderHeader();
+  </script>
 </body>
 </html>

@@ -2,17 +2,24 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <title>FPBOFM - Профиль</title>
-  <link rel="stylesheet" href="style.css">
-  <script src="header.js" defer></script>
-  <script src="http.js" defer></script>
-  <script src="profile.js" defer></script>
+  <title>FPBOFM — Профиль</title>
+  <link rel="stylesheet" href="styles/base.css">
+  <link rel="stylesheet" href="styles/components.css">
+  <link rel="stylesheet" href="styles/layout.css">
+  <link rel="stylesheet" href="styles/pages.css">
 </head>
 <body>
+  <header></header>
+
   <main class="container">
-    <h1>👤 Личный кабинет</h1>
-    <div id="profile-info"></div>
-    <button id="logout" class="btn">Выйти</button>
+    <h1>Личный кабинет</h1>
+    <div id="profile-info" class="card"></div>
   </main>
+
+  <script type="module" src="js/pages/profile.page.js"></script>
+  <script type="module">
+    import { renderHeader } from "./js/utils/header.js";
+    renderHeader();
+  </script>
 </body>
 </html>

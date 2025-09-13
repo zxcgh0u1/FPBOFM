@@ -2,21 +2,29 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <title>FPBOFM - Вход</title>
-  <link rel="stylesheet" href="style.css">
-  <script src="header.js" defer></script>
-  <script src="http.js" defer></script>
-  <script src="login.js" defer></script>
+  <title>FPBOFM — Вход</title>
+  <link rel="stylesheet" href="styles/base.css">
+  <link rel="stylesheet" href="styles/components.css">
+  <link rel="stylesheet" href="styles/layout.css">
+  <link rel="stylesheet" href="styles/pages.css">
 </head>
 <body>
+  <header></header>
+
   <main class="container">
-    <form id="login-form">
-      <h2>🔑 Вход</h2>
-      <input type="email" id="email" placeholder="Email" required>
-      <input type="password" id="password" placeholder="Пароль" required>
+    <h1>Вход</h1>
+    <form id="login-form" class="card">
+      <input type="email" name="email" placeholder="Email" required>
+      <input type="password" name="password" placeholder="Пароль" required>
       <button type="submit" class="btn">Войти</button>
-      <p>Нет аккаунта? <a href="register.html">Зарегистрироваться</a></p>
     </form>
+    <p>Нет аккаунта? <a href="register.html">Зарегистрируйся</a></p>
   </main>
+
+  <script type="module" src="js/pages/login.page.js"></script>
+  <script type="module">
+    import { renderHeader } from "./js/utils/header.js";
+    renderHeader();
+  </script>
 </body>
 </html>

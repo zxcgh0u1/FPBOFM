@@ -2,24 +2,33 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <title>FPBOFM - Админ панель</title>
-  <link rel="stylesheet" href="style.css">
-  <script src="header.js" defer></script>
-  <script src="http.js" defer></script>
-  <script src="admin.js" defer></script>
+  <title>FPBOFM — Админ панель</title>
+  <link rel="stylesheet" href="styles/base.css">
+  <link rel="stylesheet" href="styles/components.css">
+  <link rel="stylesheet" href="styles/layout.css">
+  <link rel="stylesheet" href="styles/pages.css">
 </head>
 <body>
+  <header></header>
+
   <main class="container">
-    <h1>⚙️ Админ панель</h1>
-    <section>
+    <h1>Админ панель</h1>
+    <p>Здесь администратор может управлять пользователями, их балансом и существами.</p>
+
+    <section class="card">
       <h2>👥 Пользователи</h2>
-      <div id="user-list" class="grid"></div>
+      <div id="admin-users"></div>
     </section>
-    <section>
-      <h2>🐉 Существа</h2>
-      <button id="add-creature" class="btn">Добавить новое существо</button>
-      <div id="creature-list" class="grid"></div>
+
+    <section class="card">
+      <h2>🧬 Существа</h2>
+      <div id="admin-creatures"></div>
     </section>
   </main>
+
+  <script type="module">
+    import { renderHeader } from "./js/utils/header.js";
+    renderHeader();
+  </script>
 </body>
 </html>

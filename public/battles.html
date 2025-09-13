@@ -1,38 +1,27 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="utf-8"/>
+  <meta charset="UTF-8">
   <title>FPBOFM — Бои</title>
-  <link rel="stylesheet" href="/styles/base.css"/>
-  <link rel="stylesheet" href="/styles/layout.css"/>
+  <link rel="stylesheet" href="styles/base.css">
+  <link rel="stylesheet" href="styles/components.css">
+  <link rel="stylesheet" href="styles/layout.css">
+  <link rel="stylesheet" href="styles/pages.css">
 </head>
 <body>
-<header class="topbar"></header>
-<main class="container">
-  <h1>Битвы</h1>
-  <form id="battle-form">
-    <input type="number" id="opponentId" placeholder="ID соперника"/>
-    <button type="submit">Сразиться</button>
-  </form>
-  <div id="log"></div>
-</main>
-<script type="module">
-import { http } from '/js/api/http.js';
-import { renderHeader } from '/js/header.js';
-import { store } from '/js/state/store.js';
-await store.ensureAuth();
-renderHeader();
+  <header></header>
 
-document.getElementById('battle-form').onsubmit = async e => {
-  e.preventDefault();
-  const opponentId = Number(document.getElementById('opponentId').value);
-  try {
-    const r = await http('/battles/start', { method: 'POST', body: { opponentId } });
-    document.getElementById('log').innerHTML = `Победитель — ID ${r.winnerId}`;
-  } catch (e) {
-    document.getElementById('log').innerHTML = `<span style="color:red;">${e.message}</span>`;
-  }
-};
-</script>
+  <main class="container">
+    <h1>Бои</h1>
+    <p>Выбирай существ и сражайся с другими игроками!</p>
+
+    <div id="battle-zone" class="card"></div>
+  </main>
+
+  <script type="module" src="js/pages/battles.page.js"></script>
+  <script type="module">
+    import { renderHeader } from "./js/utils/header.js";
+    renderHeader();
+  </script>
 </body>
 </html>
