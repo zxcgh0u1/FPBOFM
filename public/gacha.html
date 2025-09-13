@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <title>Гача — FPBOFM</title>
+  <link rel="stylesheet" href="/styles/base.css" />
+  <link rel="stylesheet" href="/styles/layout.css" />
+</head>
+<body>
+  <header class="topbar"></header>
+
+  <main class="container">
+    <h1>Гача</h1>
+    <button id="open-egg">Открыть яйцо</button>
+    <button id="open-chest">Открыть сундук</button>
+    <div id="result" style="margin-top:20px;"></div>
+  </main>
+
+  <script type="module">
+    import { http } from '/js/api/http.js';
+    import { store } from '/js/state/store.js';
+    import { renderHeader } from '/js/header.js';
+    await store.ensureAuth();
+    renderHeader();
+
+    const resultBox = document.getElementById('result');
+
+    document.getElementById('open-egg').onclick = async () => {
+      try {
+        const res = await http('/gachas/egg', { method: 'POST' });
+        resultBox.innerHTML = `
+          <p>Выпал: <b>${res.name}</b> (Редкость: ${res.rarity})</p>
+          ${res.imageUrl ? `<img src="${res.imageUrl}" width="120">` : ''}
+        `;
+      } catch (e) {
+        resultBox.innerHTML = `<p style="color:red;">Ошибка: ${e.message}</p>`;
+      }
+    };
+
+    document.getElementById('open-chest').onclick = async () => {
+      try {
+        const res = await http('/gachas/chest', { method: 'POST' });
+        resultBox.innerHTML = `
+          <p>Выпал: <b>${res.name}</b> (Редкость: ${res.rarity})</p>
+          ${res.imageUrl ? `<img src="${res.imageUrl}" width="120">` : ''}
+        `;
+      } catch (e) {
+        resultBox.innerHTML = `<p style="color:red;">Ошибка: ${e.message}</p>`;
+      }
+    };
+  </script>
+</body>
+</html>

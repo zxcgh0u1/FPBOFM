@@ -1,0 +1,68 @@
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 24px;
+  background: #ffffff;
+  border-bottom: 1px solid #ddd;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+.topbar .logo {
+  font-weight: 800;
+  font-size: 20px;
+  color: #111;
+}
+
+.topbar nav {
+  display: flex;
+  gap: 16px;
+}
+
+.topbar nav a {
+  color: #2563eb;
+  font-weight: 500;
+}
+
+.topbar nav a.active {
+  text-decoration: underline;
+}
+
+.auth-card {
+  display: grid;
+  place-content: center;
+  min-height: 100vh;
+}
+
+.auth-card form {
+  display: grid;
+  gap: 12px;
+  padding: 24px;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  width: min(420px, 90%);
+}
+
+.auth-card input, .auth-card button {
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+.auth-card input {
+  background: #fff;
+}
+
+.auth-card button {
+  background: #2563eb;
+  border-color: #2563eb;
+  color: #fff;
+  font-weight: 600;
+}
+
+.auth-card button:hover {
+  background: #1e4ed8;
+}

@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <title>Существа — FPBOFM</title>
+  <link rel="stylesheet" href="/styles/base.css" />
+  <link rel="stylesheet" href="/styles/layout.css" />
+  <link rel="stylesheet" href="/styles/components.css" />
+</head>
+<body>
+  <header class="topbar"></header>
+
+  <main class="container">
+    <h1>Мои существа</h1>
+    <div id="creatures" class="grid cols-3"></div>
+  </main>
+
+  <script type="module">
+    import { http } from '/js/api/http.js';
+    import { store } from '/js/state/store.js';
+    import { renderHeader } from '/js/header.js';
+    await store.ensureAuth();
+    renderHeader();
+
+    const list = await http('/creatures/mine');
+    document.getElementById('creatures').innerHTML = list.map(c =>
+      `<div class="card">
+         <h3>${c.spec.name}</h3>
+         <p>Lvl: ${c.level}, Stars: ${c.stars}</p>
+       </div>`
+    ).join('');
+  </script>
+</body>
+</html>

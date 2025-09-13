@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <title>Галерея — FPBOFM</title>
+  <link rel="stylesheet" href="/styles/base.css" />
+  <link rel="stylesheet" href="/styles/layout.css" />
+  <link rel="stylesheet" href="/styles/components.css" />
+</head>
+<body>
+  <header class="topbar"></header>
+
+  <main class="container">
+    <h1>Галерея существ</h1>
+    <div id="gallery" class="grid cols-3"></div>
+  </main>
+
+  <script type="module">
+    import { http } from '/js/api/http.js';
+    import { store } from '/js/state/store.js';
+    import { renderHeader } from '/js/header.js';
+    await store.ensureAuth();
+    renderHeader();
+
+    const list = await http('/gallery');
+    document.getElementById('gallery').innerHTML = list.map(g =>
+      `<div class="card">
+         <h3>${g.name}</h3>
+         <p>Редкость: ${g.rarity}</p>
+         <p>${g.owned ? "✅ Получен" : "❌ Не получен"}</p>
+       </div>`
+    ).join('');
+  </script>
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <title>Регистрация — FPBOFM</title>
+  <link rel="stylesheet" href="/styles/base.css" />
+  <link rel="stylesheet" href="/styles/layout.css" />
+</head>
+<body>
+  <header class="topbar"></header>
+
+  <main class="auth-card">
+    <form id="register-form">
+      <h1>Регистрация</h1>
+      <input type="email" placeholder="Email" required />
+      <input type="text" placeholder="Логин" required />
+      <input type="password" placeholder="Пароль" required />
+      <button type="submit">Зарегистрироваться</button>
+      <p>Уже есть аккаунт? <a href="/login.html">Войти</a></p>
+    </form>
+  </main>
+
+  <script type="module">
+    import { apiAuth } from '/js/api/auth.api.js';
+    import { store } from '/js/state/store.js';
+    import { renderHeader } from '/js/header.js';
+    renderHeader();
+
+    const form = document.getElementById('register-form');
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const [email, username, password] = [...form.querySelectorAll('input')].map(i => i.value.trim());
+      try {
+        await apiAuth.register(email, username, password);
+        await store.ensureAuth();
+        location.href = '/profile.html';
+      } catch (e) { alert(e.message); }
+    });
+  </script>
+</body>
+</html>
