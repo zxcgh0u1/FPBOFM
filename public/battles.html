@@ -1,24 +1,38 @@
 <!doctype html>
 <html lang="ru">
 <head>
-  <meta charset="utf-8" />
-  <title>Бои — FPBOFM</title>
-  <link rel="stylesheet" href="/styles/base.css" />
-  <link rel="stylesheet" href="/styles/layout.css" />
+  <meta charset="utf-8"/>
+  <title>FPBOFM — Бои</title>
+  <link rel="stylesheet" href="/styles/base.css"/>
+  <link rel="stylesheet" href="/styles/layout.css"/>
 </head>
 <body>
-  <header class="topbar"></header>
+<header class="topbar"></header>
+<main class="container">
+  <h1>Битвы</h1>
+  <form id="battle-form">
+    <input type="number" id="opponentId" placeholder="ID соперника"/>
+    <button type="submit">Сразиться</button>
+  </form>
+  <div id="log"></div>
+</main>
+<script type="module">
+import { http } from '/js/api/http.js';
+import { renderHeader } from '/js/header.js';
+import { store } from '/js/state/store.js';
+await store.ensureAuth();
+renderHeader();
 
-  <main class="container">
-    <h1>Бои (заглушка)</h1>
-    <p>Позже здесь будет интерфейс PvP.</p>
-  </main>
-
-  <script type="module">
-    import { store } from '/js/state/store.js';
-    import { renderHeader } from '/js/header.js';
-    await store.ensureAuth();
-    renderHeader();
-  </script>
+document.getElementById('battle-form').onsubmit = async e => {
+  e.preventDefault();
+  const opponentId = Number(document.getElementById('opponentId').value);
+  try {
+    const r = await http('/battles/start', { method: 'POST', body: { opponentId } });
+    document.getElementById('log').innerHTML = `Победитель — ID ${r.winnerId}`;
+  } catch (e) {
+    document.getElementById('log').innerHTML = `<span style="color:red;">${e.message}</span>`;
+  }
+};
+</script>
 </body>
 </html>

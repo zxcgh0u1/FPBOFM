@@ -1,37 +1,33 @@
 <!doctype html>
 <html lang="ru">
 <head>
-  <meta charset="utf-8" />
-  <title>Ежедневные задания — FPBOFM</title>
-  <link rel="stylesheet" href="/styles/base.css" />
-  <link rel="stylesheet" href="/styles/layout.css" />
+  <meta charset="utf-8"/>
+  <title>FPBOFM — Задания</title>
+  <link rel="stylesheet" href="/styles/base.css"/>
+  <link rel="stylesheet" href="/styles/layout.css"/>
 </head>
 <body>
-  <header class="topbar"></header>
+<header class="topbar"></header>
+<main class="container">
+  <h1>Задания</h1>
+  <button id="claim-daily">Забрать ежедневную награду</button>
+  <div id="status"></div>
+</main>
+<script type="module">
+import { http } from '/js/api/http.js';
+import { renderHeader } from '/js/header.js';
+import { store } from '/js/state/store.js';
+await store.ensureAuth();
+renderHeader();
 
-  <main class="container">
-    <h1>Ежедневные задания</h1>
-    <button id="daily">Забрать награду</button>
-    <div id="res" style="margin-top:20px;"></div>
-  </main>
-
-  <script type="module">
-    import { http } from '/js/api/http.js';
-    import { store } from '/js/state/store.js';
-    import { renderHeader } from '/js/header.js';
-    await store.ensureAuth();
-    renderHeader();
-
-    document.getElementById('daily').onclick = async () => {
-      try {
-        const result = await http('/tasks/daily', { method: 'POST' });
-        document.getElementById('res').innerHTML =
-          `<p>Вы получили ${result.reward} монет!</p>`;
-      } catch (e) {
-        document.getElementById('res').innerHTML =
-          `<p style="color:red;">Ошибка: ${e.message}</p>`;
-      }
-    };
-  </script>
+document.getElementById('claim-daily').onclick = async () => {
+  try {
+    const r = await http('/tasks/daily', { method: 'POST' });
+    document.getElementById('status').innerHTML = `Получено ${r.reward} монет!`;
+  } catch (e) {
+    document.getElementById('status').innerHTML = `<span style="color:red;">${e.message}</span>`;
+  }
+};
+</script>
 </body>
 </html>

@@ -1,20 +1,11 @@
-const service = require('./battles.service');
+const svc = require('./battles.service');
 
 exports.startBattle = async (req, res) => {
-  try {
-    const { opponentId } = req.body;
-    const battle = await service.startBattle(req.user.id, opponentId);
-    res.json(battle);
-  } catch (err) {
-    res.status(400).json({ message: err.message });
-  }
+  try { res.json(await svc.startBattle(req.user.id, req.body.opponentId)); }
+  catch (e) { res.status(400).json({ message: e.message }); }
 };
 
 exports.listBattles = async (req, res) => {
-  try {
-    const battles = await service.listBattles(req.user.id);
-    res.json(battles);
-  } catch (err) {
-    res.status(400).json({ message: err.message });
-  }
+  try { res.json(await svc.listBattles(req.user.id)); }
+  catch (e) { res.status(400).json({ message: e.message }); }
 };

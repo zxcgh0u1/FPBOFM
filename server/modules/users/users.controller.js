@@ -1,19 +1,11 @@
 const service = require('./users.service');
 
 exports.getMe = async (req, res) => {
-  try {
-    const me = await service.getMe(req.user.id);
-    res.json(me);
-  } catch (err) {
-    res.status(400).json({ message: err.message });
-  }
+  try { res.json(await service.getMe(req.user.id)); }
+  catch (e) { res.status(400).json({ message: e.message }); }
 };
 
-exports.getAll = async (req, res) => {
-  try {
-    const users = await service.getAll();
-    res.json(users);
-  } catch (err) {
-    res.status(400).json({ message: err.message });
-  }
+exports.getAll = async (_req, res) => {
+  try { res.json(await service.getAll()); }
+  catch (e) { res.status(400).json({ message: e.message }); }
 };

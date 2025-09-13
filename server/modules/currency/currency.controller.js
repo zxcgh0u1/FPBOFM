@@ -1,24 +1,14 @@
 const service = require('./currency.service');
 
 exports.getWallet = async (req, res) => {
-  try {
-    const wallet = await service.getWallet(req.user.id);
-    res.json(wallet);
-  } catch (err) {
-    res.status(400).json({ message: err.message });
-  }
+  try { res.json(await service.getWallet(req.user.id)); }
+  catch (e) { res.status(400).json({ message: e.message }); }
 };
 
 exports.addFunds = async (req, res) => {
   try {
     const { amount } = req.body;
-    if (!amount || amount <= 0) {
-      return res.status(400).json({ message: 'Некорректная сумма' });
-    }
-
-    const wallet = await service.addFunds(req.user.id, amount);
-    res.json(wallet);
-  } catch (err) {
-    res.status(400).json({ message: err.message });
-  }
+    if (!amount || amount <= 0) return res.status(400).json({ message: 'Некорректная сумма' });
+    res.json(await service.addFunds(req.user.id, amount));
+  } catch (e) { res.status(400).json({ message: e.message }); }
 };

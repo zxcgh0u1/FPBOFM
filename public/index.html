@@ -1,45 +1,23 @@
 <!doctype html>
 <html lang="ru">
 <head>
-  <meta charset="utf-8" />
+  <meta charset="utf-8"/>
   <title>FPBOFM — Главная</title>
-  <link rel="stylesheet" href="/styles/base.css" />
-  <link rel="stylesheet" href="/styles/layout.css" />
-  <link rel="stylesheet" href="/styles/components.css" />
+  <link rel="stylesheet" href="/styles/base.css"/>
+  <link rel="stylesheet" href="/styles/layout.css"/>
 </head>
 <body>
-  <!-- общая шапка -->
-  <header class="topbar"></header>
-
-  <main class="container">
-    <h1>Добро пожаловать в FPBOFM</h1>
-    <p>Это браузерная игра: собирай существ, открывай сундуки и сражайся!</p>
-
-    <section class="grid cols-3">
-      <div class="card">
-        <h3>Гача</h3>
-        <p>Покупай яйца и сундуки, чтобы выбить новых существ.</p>
-        <a href="/gacha.html">Открыть</a>
-      </div>
-      <div class="card">
-        <h3>Существа</h3>
-        <p>Собери коллекцию, прокачивай уровень и звёзды.</p>
-        <a href="/creatures.html">Посмотреть</a>
-      </div>
-      <div class="card">
-        <h3>Бои</h3>
-        <p>Сражайся с другими игроками и докажи силу своей команды!</p>
-        <a href="/battles.html">В бой</a>
-      </div>
-    </section>
-  </main>
-
-  <!-- подключаем шапку через JS -->
-  <script type="module">
-    import { store } from '/js/state/store.js';
-    import { renderHeader } from '/js/header.js';
-    await store.ensureAuth();
-    renderHeader();
-  </script>
+<header class="topbar"></header>
+<main class="container">
+  <h1>Добро пожаловать в FPBOFM!</h1>
+  <p>Это браузерная игра, где вы открываете яйца и сундуки, собираете существ, улучшаете их и сражаетесь с другими игроками.</p>
+  <p>Используйте меню сверху, чтобы попасть в разделы: галерея, существа, гача, задания и многое другое.</p>
+</main>
+<script type="module">
+import { renderHeader } from '/js/header.js';
+import { store } from '/js/state/store.js';
+await store.ensureAuth();
+renderHeader();
+</script>
 </body>
 </html>

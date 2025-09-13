@@ -1,19 +1,11 @@
 const service = require('./creatures.service');
 
 exports.list = async (req, res) => {
-  try {
-    const creatures = await service.list(req.user.id);
-    res.json(creatures);
-  } catch (err) {
-    res.status(400).json({ message: err.message });
-  }
+  try { res.json(await service.list(req.user.id)); }
+  catch (e) { res.status(400).json({ message: e.message }); }
 };
 
 exports.upgrade = async (req, res) => {
-  try {
-    const upgraded = await service.upgrade(req.user.id, parseInt(req.params.id));
-    res.json(upgraded);
-  } catch (err) {
-    res.status(400).json({ message: err.message });
-  }
+  try { res.json(await service.upgrade(req.user.id, Number(req.params.id))); }
+  catch (e) { res.status(400).json({ message: e.message }); }
 };
