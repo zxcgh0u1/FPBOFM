@@ -1,15 +1,33 @@
-const API = '/api';
+// Обертка над fetch для работы с API
+const API_URL = 'http://localhost:3000/api';
 
+async function request(path, options = {}) {
+  const token = localStorage.getItem('token');
 
-function getToken() { return localStorage.getItem('token'); }
-export function setToken(t) { localStorage.setItem('token', t); }
-export function clearToken() { localStorage.removeItem('token'); }
+  const headers = {
+    'Content-Type': 'application/json',
+    ...options.headers,
+  };
 
+  if (token) {
+    headers['Authorization'] = `Bearer ${token}`;
+  }
 
-export async function http(path, { method = 'GET', body, auth = true } = {}) {
-const headers = { 'Content-Type': 'application/json' };
-if (auth && getToken()) headers['Authorization'] = 'Bearer ' + getToken();
-const res = await fetch(API + path, { method, headers, body: body ? JSON.stringify(body) : undefined });
-if (!res.ok) throw new Error((await res.json().catch(() => ({}))).message || 'API error');
-return res.json();
+  const res = await fetch(`${API_URL}${path}`, {
+    ...options,
+    headers,
+  });
+
+  if (!res.ok) {
+    throw new Error(`Ошибка запроса: ${res.status}`);
+  }
+
+  return res.json();
 }
+
+export const http = {
+  get: (path) => request(path, { method: 'GET' }),
+  post: (path, body) => request(path, { method: 'POST', body: JSON.stringify(body) }),
+  put: (path, body) => request(path, { method: 'PUT', body: JSON.stringify(body) }),
+  delete: (path) => request(path, { method: 'DELETE' }),
+};

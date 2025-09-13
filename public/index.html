@@ -1,57 +1,62 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <title>FPBOFM — Главная</title>
-  <link rel="stylesheet" href="styles/base.css">
-  <link rel="stylesheet" href="styles/layout.css">
-  <link rel="stylesheet" href="styles/components.css">
-  <link rel="stylesheet" href="styles/pages.css">
-  <script type="module" src="js/utils/header.js"></script>
+  <meta charset="UTF-8" />
+  <title>FPBOFM</title>
+  <link rel="stylesheet" href="./styles/base.css">
+  <link rel="stylesheet" href="./styles/components.css">
+  <link rel="stylesheet" href="./styles/layout.css">
+  <link rel="stylesheet" href="./styles/pages.css">
 </head>
 <body>
+  <!-- Хедер -->
   <header></header>
 
   <main class="container">
     <h1>Добро пожаловать в FPBOFM!</h1>
     <p>Это браузерная игра, где вы открываете яйца и сундуки, выбиваете существ, прокачиваете их и сражаетесь с другими игроками.</p>
 
-    <section class="cards">
-      <div class="card">
-        <h2>🥚 Гача</h2>
-        <p>Открывай яйца и сундуки, получай существ разной редкости!</p>
-        <a class="btn" href="gacha.html">Перейти</a>
-      </div>
-      <div class="card">
-        <h2>🐍 Существа</h2>
-        <p>Просмотри коллекцию своих существ, объединяй повторки и прокачивай их!</p>
-        <a class="btn" href="creatures.html">Перейти</a>
-      </div>
-      <div class="card">
-        <h2>⚔️ Бои</h2>
-        <p>Сражайся с другими игроками и докажи, кто сильнее!</p>
-        <a class="btn" href="battles.html">Перейти</a>
-      </div>
-      <div class="card">
-        <h2>🎯 Ежедневки</h2>
-        <p>Выполняй ежедневные задания и зарабатывай монеты!</p>
-        <a class="btn" href="tasks.html">Перейти</a>
-      </div>
-      <div class="card">
-        <h2>🖼 Галерея</h2>
-        <p>Посмотри галерею существ и предметов.</p>
-        <a class="btn" href="gallery.html">Перейти</a>
-      </div>
-      <div class="card">
-        <h2>👤 Личный кабинет</h2>
-        <p>Настрой профиль, смотри свой прогресс и достижения.</p>
-        <a class="btn" href="profile.html">Перейти</a>
-      </div>
+    <section class="card">
+      <h2>🥚 Гача</h2>
+      <p>Открывай яйца и сундуки, получай существ разной редкости!</p>
+      <a href="gacha.html">Перейти</a>
+    </section>
+
+    <section class="card">
+      <h2>🐍 Существа</h2>
+      <p>Просмотри коллекцию своих существ, объединяй повторки и прокачивай их!</p>
+      <a href="creatures.html">Перейти</a>
+    </section>
+
+    <section class="card">
+      <h2>⚔️ Бои</h2>
+      <p>Сражайся с другими игроками и докажи, кто сильнее!</p>
+      <a href="battles.html">Перейти</a>
+    </section>
+
+    <section class="card">
+      <h2>🎯 Ежедневки</h2>
+      <p>Выполняй ежедневные задания и зарабатывай монеты!</p>
+      <a href="tasks.html">Перейти</a>
+    </section>
+
+    <section class="card">
+      <h2>🖼️ Галерея</h2>
+      <p>Посмотри галерею существ и предметов.</p>
+      <a href="gallery.html">Перейти</a>
+    </section>
+
+    <section class="card">
+      <h2>👤 Личный кабинет</h2>
+      <p>Настрой профиль, смотри свой прогресс и достижения.</p>
+      <a href="profile.html">Перейти</a>
     </section>
   </main>
 
-  <footer class="footer">
-    <p>© 2025 FPBOFM. Все права защищены.</p>
-  </footer>
+  <!-- ✅ Подключение хедера -->
+  <script type="module">
+    import { renderHeader } from './js/utils/header.js';
+    renderHeader();
+  </script>
 </body>
 </html>

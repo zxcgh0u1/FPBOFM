@@ -1,25 +1,34 @@
-const path = require('path');
 const express = require('express');
-require('dotenv').config();
+const path = require('path');
 
 const app = express();
-app.use(express.json());
+const PORT = process.env.PORT || 3000;
 
-// статика
-app.use(express.static(path.join(__dirname, '..', 'public')));
+// ✅ Middleware: правильные заголовки для js и css
+app.use((req, res, next) => {
+  if (req.path.endsWith('.js')) {
+    res.type('application/javascript');
+  }
+  if (req.path.endsWith('.css')) {
+    res.type('text/css');
+  }
+  next();
+});
 
-// API-модули
+// ✅ Раздаём статические файлы из public
+app.use(express.static(path.join(__dirname, '../public')));
+
+// ✅ API (твои роуты)
 app.use('/api/auth', require('./auth/auth.routes'));
-app.use('/api/users', require('./modules/users/users.routes'));
+app.use('/api/battles', require('./modules/battles/battles.routes'));
+app.use('/api/creatures', require('./modules/creatures/creatures.routes'));
+app.use('/api/currency', require('./modules/currency/currency.routes'));
+app.use('/api/gachas', require('./modules/gachas/gachas.routes'));
 app.use('/api/gallery', require('./modules/gallery/gallery.routes'));
 app.use('/api/tasks', require('./modules/tasks/tasks.routes'));
-app.use('/api/currency', require('./modules/currency/currency.routes'));
-app.use('/api/creatures', require('./modules/creatures/creatures.routes'));
-app.use('/api/gachas', require('./modules/gachas/gachas.routes'));
-app.use('/api/battles', require('./modules/battles/battles.routes'));
+app.use('/api/users', require('./modules/users/users.routes'));
 
-// single-page навигация простая (если нужно)
-app.get('/', (_, res) => res.sendFile(path.join(__dirname, '..', 'public', 'index.html')));
-
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`FPBOFM server running on http://localhost:${PORT}`));
+// ✅ Старт сервера
+app.listen(PORT, () => {
+  console.log(`Server running on http://localhost:${PORT}`);
+});

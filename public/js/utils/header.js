@@ -3,7 +3,11 @@ import { http } from '../api/http.js';
 console.log("header.js загружен");
 
 export async function renderHeader() {
-  const header = document.querySelector('header');
+  console.log("✅ renderHeader() вызван");
+  const header = document.querySelector("header");
+  if (!header) {
+    console.warn("⚠️ <header> не найден");
+    return;}
   if (!header) return;
 
   try {
@@ -12,7 +16,7 @@ export async function renderHeader() {
     header.innerHTML = `
       <div class="logo">FPBOFM</div>
       <nav>
-        <a href="gacha.html">Гача</a>
+        <a href="gacha.html">Гача</a> 
         <a href="creatures.html">Существа</a>
         <a href="battles.html">Бои</a>
         <a href="tasks.html">Ежедневки</a>
