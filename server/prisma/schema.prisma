@@ -1,4 +1,3 @@
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -8,56 +7,51 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-enum Rarity {
-  COMMON
-  UNCOMMON
-  RARE
-  EPIC
-  LEGENDARY
-}
-
 model User {
-  id             String             @id @default(cuid())
-  email          String             @unique
-  username       String
-  passwordHash   String
-  wallet         Wallet?
-  creatures      CreatureInstance[]
-  tasks          UserTask[]
-  battlesAsA     Battle[]           @relation("BattleA")
-  battlesAsB     Battle[]           @relation("BattleB")
-  dailyClaimedAt DateTime?
+  id           Int              @id @default(autoincrement())
+  email        String           @unique
+  username     String
+  passwordHash String
+  wallet       Wallet?
+  creatures    CreatureInstance[]
+  tasks        UserTask[]
+  battlesAsA   Battle[]         @relation("BattlesAsA")
+  battlesAsB   Battle[]         @relation("BattlesAsB")
+  battlesWon   Battle[]         @relation("BattlesWinner")
 }
 
 model Wallet {
-  id      String @id @default(cuid())
-  userId  String @unique
-  user    User   @relation(fields: [userId], references: [id])
-  balance Int
+  id     Int  @id @default(autoincrement())
+  coins  Int  @default(0)
+  userId Int  @unique
+  user   User @relation(fields: [userId], references: [id])
 }
 
 model CreatureSpec {
-  id        String   @id @default(cuid())
-  name      String
-  rarity    Rarity
-  dropRate  Int
-  baseHP    Int
-  baseATK   Int
-  baseDEF   Int
+  id      Int       @id @default(autoincrement())
+  name    String
+  rarity  String
+  baseHP  Int
+  baseATK Int
+  baseDEF Int
+  gallery Gallery[]
   instances CreatureInstance[]
 }
 
 model CreatureInstance {
-  id      String   @id @default(cuid())
-  ownerId String
-  specId  String
-  owner   User          @relation(fields: [ownerId], references: [id])
-  spec    CreatureSpec  @relation(fields: [specId], references: [id])
-  stars   Int           @default(1)
+  id       Int          @id @default(autoincrement())
+  ownerId  Int
+  specId   Int
+  stars    Int          @default(1)
+  hp       Int
+  atk      Int
+  def      Int
+  owner    User         @relation(fields: [ownerId], references: [id])
+  spec     CreatureSpec @relation(fields: [specId], references: [id])
 }
 
 model Task {
-  id          String    @id @default(cuid())
+  id          Int        @id @default(autoincrement())
   title       String
   description String
   reward      Int
@@ -65,30 +59,27 @@ model Task {
 }
 
 model UserTask {
-  id     String @id @default(cuid())
-  userId String
-  taskId String
+  id     Int   @id @default(autoincrement())
+  userId Int
+  taskId Int
+  done   Boolean @default(false)
   user   User   @relation(fields: [userId], references: [id])
   task   Task   @relation(fields: [taskId], references: [id])
-  done   Boolean @default(false)
 }
 
 model Battle {
-  id        String   @id @default(cuid())
-  aId       String
-  bId       String
-  a         User     @relation("BattleA", fields: [aId], references: [id])
-  b         User     @relation("BattleB", fields: [bId], references: [id])
-  winnerId  String?
+  id        Int   @id @default(autoincrement())
+  aId       Int
+  bId       Int
+  winnerId  Int?
   createdAt DateTime @default(now())
+  playerA   User @relation("BattlesAsA", fields: [aId], references: [id])
+  playerB   User @relation("BattlesAsB", fields: [bId], references: [id])
+  winner    User? @relation("BattlesWinner", fields: [winnerId], references: [id])
 }
 
 model Gallery {
-  id       String   @id @default(cuid())
-  name     String
-  rarity   Rarity
-  imageUrl String?
-  baseHP   Int
-  baseATK  Int
-  baseDEF  Int
+  id     Int          @id @default(autoincrement())
+  specId Int
+  spec   CreatureSpec @relation(fields: [specId], references: [id])
 }
