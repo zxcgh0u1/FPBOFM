@@ -1,9 +1,12 @@
-const router = require('express').Router();
-const { authMiddleware } = require('../../auth/auth.middleware');
-const c = require('./tasks.controller');
 
+import { Router } from 'express';
+import { authMiddleware } from '../../auth/auth.middleware.js';
+import ctrl from './tasks.controller.js';
+
+const router = Router();
 router.use(authMiddleware);
-router.get('/', c.list);
-router.post('/daily', c.claimDaily);
 
-module.exports = router;
+router.get('/', ctrl.list);
+router.post('/daily', ctrl.daily);
+
+export default router;

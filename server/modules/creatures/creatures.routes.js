@@ -1,9 +1,12 @@
-const router = require('express').Router();
-const { authMiddleware } = require('../../auth/auth.middleware');
-const c = require('./creatures.controller');
 
+import { Router } from 'express';
+import { authMiddleware } from '../../auth/auth.middleware.js';
+import ctrl from './creatures.controller.js';
+
+const router = Router();
 router.use(authMiddleware);
-router.get('/', c.list);
-router.post('/upgrade/:id', c.upgrade);
 
-module.exports = router;
+router.get('/', ctrl.list);
+router.post('/upgrade', ctrl.upgrade);
+
+export default router;

@@ -1,25 +1,22 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>FPBOFM — Профиль</title>
-  <link rel="stylesheet" href="styles/base.css">
-  <link rel="stylesheet" href="styles/components.css">
-  <link rel="stylesheet" href="styles/layout.css">
-  <link rel="stylesheet" href="styles/pages.css">
+  <link rel="stylesheet" href="/styles/base.css" />
+  <link rel="stylesheet" href="/styles/components.css" />
+  <link rel="stylesheet" href="/styles/layout.css" />
+  <link rel="stylesheet" href="/styles/pages.css" />
 </head>
-<body>
-  <header></header>
-
+<body data-page="profile">
+  <header id="app-header"></header>
   <main class="container">
-    <h1>Личный кабинет</h1>
-    <div id="profile-info" class="card"></div>
-  </main>
 
-  <script type="module" src="js/pages/profile.page.js"></script>
-  <script type="module">
-    import { renderHeader } from "./js/utils/header.js";
-    renderHeader();
-  </script>
+    <h1>Профиль</h1>
+    <div id="profile-box" class="card"></div>
+
+  </main>
+  <script type="module" src="/js/utils/main.js"></script>
 </body>
 </html>

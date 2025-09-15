@@ -1,32 +1,27 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>FPBOFM — Гача</title>
-  <link rel="stylesheet" href="styles/base.css">
-  <link rel="stylesheet" href="styles/layout.css">
-  <link rel="stylesheet" href="styles/components.css">
-  <link rel="stylesheet" href="styles/pages.css">
-  <script type="module" src="js/utils/header.js"></script>
-  <script type="module" src="js/pages/gacha.page.js"></script>
+  <link rel="stylesheet" href="/styles/base.css" />
+  <link rel="stylesheet" href="/styles/components.css" />
+  <link rel="stylesheet" href="/styles/layout.css" />
+  <link rel="stylesheet" href="/styles/pages.css" />
 </head>
-<body>
-  <header></header>
-
+<body data-page="gacha">
+  <header id="app-header"></header>
   <main class="container">
-    <h1>🥚 Гача</h1>
-    <p>Испытай удачу: открывай яйца или сундуки и получай уникальных существ!</p>
 
-    <div class="gacha-actions">
-      <button id="buy-egg" class="btn">Купить яйцо (200 монет)</button>
-      <button id="buy-chest" class="btn">Купить сундук (1000 монет)</button>
+    <h1>Гача</h1>
+    <p>Выбирай что открывать:</p>
+    <div class="stack">
+      <button id="open-egg" class="btn">🥚 Открыть яйцо</button>
+      <button id="open-chest" class="btn">🔑 Открыть сундук</button>
     </div>
+    <div id="gacha-result" class="card mt"></div>
 
-    <div id="gacha-result" class="gacha-result"></div>
   </main>
-
-  <footer class="footer">
-    <p>© 2025 FPBOFM. Все права защищены.</p>
-  </footer>
+  <script type="module" src="/js/utils/main.js"></script>
 </body>
 </html>

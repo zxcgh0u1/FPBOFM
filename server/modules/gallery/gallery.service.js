@@ -1,4 +1,7 @@
-const { prisma } = require('../../db/client');
 
-exports.list = async () =>
-  prisma.creatureSpec.findMany({ orderBy: [{ rarity: 'asc' }, { name: 'asc' }] });
+import { prisma } from '../../db/client.js';
+
+async function list(){ return prisma.gallery.findMany(); }
+async function add(){ throw new Error('Добавление пока не реализовано'); }
+
+export default { list, add };

@@ -1,19 +1,17 @@
-const jwt = require('jsonwebtoken');
 
-function authMiddleware(req, res, next) {
-  const header = req.headers['authorization'];
-  if (!header) return res.status(401).json({ message: 'Требуется авторизация' });
+import jwt from 'jsonwebtoken';
+import { security } from '../config/security.js';
 
-  const token = header.split(' ')[1];
-  if (!token) return res.status(401).json({ message: 'Требуется авторизация' });
-
-  try {
-    const payload = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = payload;
+export function authMiddleware(req, res, next){
+  try{
+    const h = req.headers.authorization;
+    const token = (req.cookies && req.cookies[security.COOKIE_NAME]) ||
+                  (h && h.startsWith('Bearer ') ? h.slice(7) : null);
+    if(!token) return res.status(401).json({ error: 'Unauthorized' });
+    const payload = jwt.verify(token, security.JWT_SECRET);
+    req.user = { id: payload.sub, email: payload.email };
     next();
-  } catch {
-    return res.status(401).json({ message: 'Недействительный токен' });
+  }catch(e){
+    res.status(401).json({ error: 'Unauthorized' });
   }
 }
-
-module.exports = { authMiddleware };

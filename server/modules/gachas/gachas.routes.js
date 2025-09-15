@@ -1,9 +1,12 @@
-const router = require('express').Router();
-const { authMiddleware } = require('../../auth/auth.middleware');
-const c = require('./gachas.controller');
 
+import { Router } from 'express';
+import { authMiddleware } from '../../auth/auth.middleware.js';
+import ctrl from './gachas.controller.js';
+
+const router = Router();
 router.use(authMiddleware);
-router.post('/egg', c.openEgg);
-router.post('/chest', c.openChest);
 
-module.exports = router;
+router.post('/egg', ctrl.egg);
+router.post('/chest', ctrl.chest);
+
+export default router;

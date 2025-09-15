@@ -1,9 +1,11 @@
-const router = require('express').Router();
-const { authMiddleware } = require('../../auth/auth.middleware');
-const c = require('./currency.controller');
 
+import { Router } from 'express';
+import { authMiddleware } from '../../auth/auth.middleware.js';
+import ctrl from './currency.controller.js';
+
+const router = Router();
 router.use(authMiddleware);
-router.get('/', c.getWallet);
-router.post('/add', c.addFunds);
 
-module.exports = router;
+router.get('/wallet', ctrl.wallet);
+
+export default router;

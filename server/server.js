@@ -1,34 +1,37 @@
-const express = require('express');
-const path = require('path');
+
+import express from 'express';
+import cookieParser from 'cookie-parser';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+import authRoutes from './auth/auth.routes.js';
+import creaturesRoutes from './modules/creatures/creatures.routes.js';
+import gachasRoutes from './modules/gachas/gachas.routes.js';
+import galleryRoutes from './modules/gallery/gallery.routes.js';
+import tasksRoutes from './modules/tasks/tasks.routes.js';
+import battlesRoutes from './modules/battles/battles.routes.js';
+import currencyRoutes from './modules/currency/currency.routes.js';
+import usersRoutes from './modules/users/users.routes.js';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+app.use(express.json());
+app.use(cookieParser());
 
-// ✅ Middleware: правильные заголовки для js и css
-app.use((req, res, next) => {
-  if (req.path.endsWith('.js')) {
-    res.type('application/javascript');
-  }
-  if (req.path.endsWith('.css')) {
-    res.type('text/css');
-  }
-  next();
-});
+// API routes
+app.use('/api/auth', authRoutes);
+app.use('/api/creatures', creaturesRoutes);
+app.use('/api/gachas', gachasRoutes);
+app.use('/api/gallery', galleryRoutes);
+app.use('/api/tasks', tasksRoutes);
+app.use('/api/battles', battlesRoutes);
+app.use('/api/currency', currencyRoutes);
+app.use('/api/users', usersRoutes);
 
-// ✅ Раздаём статические файлы из public
+// static
 app.use(express.static(path.join(__dirname, '../public')));
 
-// ✅ API (твои роуты)
-app.use('/api/auth', require('./auth/auth.routes'));
-app.use('/api/battles', require('./modules/battles/battles.routes'));
-app.use('/api/creatures', require('./modules/creatures/creatures.routes'));
-app.use('/api/currency', require('./modules/currency/currency.routes'));
-app.use('/api/gachas', require('./modules/gachas/gachas.routes'));
-app.use('/api/gallery', require('./modules/gallery/gallery.routes'));
-app.use('/api/tasks', require('./modules/tasks/tasks.routes'));
-app.use('/api/users', require('./modules/users/users.routes'));
-
-// ✅ Старт сервера
-app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
-});
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`🚀 Server running on http://localhost:${PORT}`));

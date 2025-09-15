@@ -1,27 +1,25 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <title>FPBOFM — Ежедневные задания</title>
-  <link rel="stylesheet" href="styles/base.css">
-  <link rel="stylesheet" href="styles/layout.css">
-  <link rel="stylesheet" href="styles/components.css">
-  <link rel="stylesheet" href="styles/pages.css">
-  <script type="module" src="js/utils/header.js"></script>
-  <script type="module" src="js/pages/tasks.page.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FPBOFM — Задания</title>
+  <link rel="stylesheet" href="/styles/base.css" />
+  <link rel="stylesheet" href="/styles/components.css" />
+  <link rel="stylesheet" href="/styles/layout.css" />
+  <link rel="stylesheet" href="/styles/pages.css" />
 </head>
-<body>
-  <header></header>
-
+<body data-page="tasks">
+  <header id="app-header"></header>
   <main class="container">
-    <h1>🎯 Ежедневные задания</h1>
-    <p>Выполняй миссии и получай награды!</p>
 
-    <ul id="tasks-list" class="task-list"></ul>
+    <h1>Задания</h1>
+    <div class="card">
+      <button id="claim-daily" class="btn">🎁 Получить ежедневную награду</button>
+    </div>
+    <div id="tasks-list" class="stack mt"></div>
+
   </main>
-
-  <footer class="footer">
-    <p>© 2025 FPBOFM. Все права защищены.</p>
-  </footer>
+  <script type="module" src="/js/utils/main.js"></script>
 </body>
 </html>

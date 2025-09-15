@@ -1,3 +1,4 @@
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -5,44 +6,6 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
-}
-
-model User {
-  id           String   @id @default(cuid())
-  email        String   @unique
-  username     String   @unique
-  passwordHash String
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-
-  wallet         Wallet?
-  inventory      CreatureInstance[]
-  tasks          UserTask[]
-  battlesAsA     Battle[]           @relation("A")
-  battlesAsB     Battle[]           @relation("B")
-  lastPassiveAt  DateTime?
-  dailyClaimedAt DateTime?
-}
-
-model Wallet {
-  id      String @id @default(cuid())
-  userId  String @unique
-  balance Int    @default(0)
-
-  user User @relation(fields: [userId], references: [id])
-}
-
-model CreatureSpec {
-  id       String  @id @default(cuid())
-  name     String  @unique
-  rarity   Rarity
-  baseHP   Int
-  baseATK  Int
-  baseDEF  Int
-  imageUrl String?
-  dropRate Float
-
-  instances CreatureInstance[] // 👈 обратная связь
 }
 
 enum Rarity {
@@ -53,60 +16,79 @@ enum Rarity {
   LEGENDARY
 }
 
+model User {
+  id             String             @id @default(cuid())
+  email          String             @unique
+  username       String
+  passwordHash   String
+  wallet         Wallet?
+  creatures      CreatureInstance[]
+  tasks          UserTask[]
+  battlesAsA     Battle[]           @relation("BattleA")
+  battlesAsB     Battle[]           @relation("BattleB")
+  dailyClaimedAt DateTime?
+}
+
+model Wallet {
+  id      String @id @default(cuid())
+  userId  String @unique
+  user    User   @relation(fields: [userId], references: [id])
+  balance Int
+}
+
+model CreatureSpec {
+  id        String   @id @default(cuid())
+  name      String
+  rarity    Rarity
+  dropRate  Int
+  baseHP    Int
+  baseATK   Int
+  baseDEF   Int
+  instances CreatureInstance[]
+}
 
 model CreatureInstance {
-  id       String  @id @default(cuid())
-  ownerId  String
-  specId   String
-  level    Int     @default(1)
-  stars    Int     @default(0)
-  exp      Int     @default(0)
-  isLocked Boolean @default(false)
-
-  owner User         @relation(fields: [ownerId], references: [id])
-  spec  CreatureSpec @relation(fields: [specId], references: [id])
+  id      String   @id @default(cuid())
+  ownerId String
+  specId  String
+  owner   User          @relation(fields: [ownerId], references: [id])
+  spec    CreatureSpec  @relation(fields: [specId], references: [id])
+  stars   Int           @default(1)
 }
 
-model GachaProduct {
-  id       String    @id @default(cuid())
-  type     GachaType
-  price    Int
-  pityStep Int       @default(0)
+model Task {
+  id          String    @id @default(cuid())
+  title       String
+  description String
+  reward      Int
+  userTasks   UserTask[]
 }
 
-enum GachaType {
-  EGG
-  CHEST
+model UserTask {
+  id     String @id @default(cuid())
+  userId String
+  taskId String
+  user   User   @relation(fields: [userId], references: [id])
+  task   Task   @relation(fields: [taskId], references: [id])
+  done   Boolean @default(false)
 }
 
 model Battle {
   id        String   @id @default(cuid())
   aId       String
   bId       String
-  result    String
+  a         User     @relation("BattleA", fields: [aId], references: [id])
+  b         User     @relation("BattleB", fields: [bId], references: [id])
+  winnerId  String?
   createdAt DateTime @default(now())
-
-  A User @relation("A", fields: [aId], references: [id])
-  B User @relation("B", fields: [bId], references: [id])
 }
 
-model Task {
-  id     String  @id @default(cuid())
-  code   String  @unique
-  title  String
-  reward Int
-  daily  Boolean @default(false)
-
-  userTasks UserTask[] // 👈 обратная связь
-}
-
-model UserTask {
-  id       String    @id @default(cuid())
-  userId   String
-  taskId   String
-  progress Int       @default(0)
-  doneAt   DateTime?
-
-  user User @relation(fields: [userId], references: [id])
-  task Task @relation(fields: [taskId], references: [id])
+model Gallery {
+  id       String   @id @default(cuid())
+  name     String
+  rarity   Rarity
+  imageUrl String?
+  baseHP   Int
+  baseATK  Int
+  baseDEF  Int
 }

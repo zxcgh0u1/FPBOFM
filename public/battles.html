@@ -1,28 +1,27 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>FPBOFM — Бои</title>
-  <link rel="stylesheet" href="styles/base.css">
-  <link rel="stylesheet" href="styles/components.css">
-  <link rel="stylesheet" href="styles/layout.css">
-  <link rel="stylesheet" href="styles/pages.css">
+  <link rel="stylesheet" href="/styles/base.css" />
+  <link rel="stylesheet" href="/styles/components.css" />
+  <link rel="stylesheet" href="/styles/layout.css" />
+  <link rel="stylesheet" href="/styles/pages.css" />
 </head>
-<body>
-  <header></header>
-
+<body data-page="battles">
+  <header id="app-header"></header>
   <main class="container">
+
     <h1>Бои</h1>
-    <p>Выбирай существ и сражайся с другими игроками!</p>
+    <div class="card">
+      <label>Сразиться с пользователем (ID): <input id="opponent-id" placeholder="userId" /></label>
+      <button id="start-battle" class="btn">⚔️ Начать бой</button>
+    </div>
+    <h2 class="mt">История</h2>
+    <div id="battle-history" class="stack"></div>
 
-    <div id="battle-zone" class="card"></div>
   </main>
-
-  <script type="module" src="js/pages/battles.page.js"></script>
-  <script type="module">
-  import { renderHeader } from './js/utils/header.js';
-  renderHeader();
-</script>
-
+  <script type="module" src="/js/utils/main.js"></script>
 </body>
 </html>

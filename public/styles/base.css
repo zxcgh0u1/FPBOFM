@@ -1,39 +1,35 @@
-/* Сброс и общая база */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
 
-body {
-  font-family: 'Segoe UI', Arial, sans-serif;
-  background: #f5f7fa;
-  color: #222;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
+:root{
+  --bg:#0f1223;
+  --card:#171a2f;
+  --text:#e7ebff;
+  --muted:#98a2b3;
+  --brand:#5b5bd6;
+  --brand-2:#8b5bd6;
+  --ok:#1db954;
+  --warn:#ffb020;
+  --err:#ff4d4f;
+  --rad:14px;
 }
-
-a {
-  color: #1976d2;
-  text-decoration: none;
-}
-
-a:hover {
-  text-decoration: underline;
-}
-
-button {
-  cursor: pointer;
-  border: none;
-  padding: 0.6em 1.2em;
-  border-radius: 6px;
-  background: #1976d2;
-  color: #fff;
-  font-weight: 500;
-  transition: background 0.2s;
-}
-
-button:hover {
-  background: #1565c0;
-}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:linear-gradient(120deg, var(--bg), #12162e);color:var(--text);font:16px/1.45 system-ui,Segoe UI,Roboto,Ubuntu,sans-serif}
+a{color:#a5b4ff;text-decoration:none}
+a:hover{text-decoration:underline}
+.container{max-width:1100px;margin:0 auto;padding:24px}
+h1,h2,h3{margin:0 0 16px}
+.muted{color:var(--muted)}
+.mt{margin-top:16px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px}
+.stack{display:flex;flex-direction:column;gap:12px}
+.btn{background:linear-gradient(120deg, var(--brand), var(--brand-2));color:white;border:none;padding:10px 16px;border-radius:10px;font-weight:700;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.25)}
+.btn:hover{opacity:.95}
+.card{background:rgba(255,255,255,.04);backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.08);border-radius:var(--rad);padding:16px}
+.form label{display:flex;flex-direction:column;gap:6px;margin-bottom:8px}
+.form input{background:#0c0f20;border:1px solid #1f2547;color:var(--text);padding:10px;border-radius:10px}
+header .nav{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;background:linear-gradient(120deg, #3a25d1, #5d25d1);position:sticky;top:0;z-index:10}
+.nav .logo{display:flex;gap:10px;align-items:center;font-weight:900}
+.nav .menu{display:flex;gap:12px}
+.nav .menu a{padding:8px 10px;border-radius:8px}
+.nav .menu a.active,.nav .menu a:hover{background:rgba(255,255,255,.12)}
+.creature-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);padding:14px;border-radius:12px}

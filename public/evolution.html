@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>FPBOFM — Эволюция</title>
+  <link rel="stylesheet" href="/styles/base.css">
+  <link rel="stylesheet" href="/styles/components.css">
+  <link rel="stylesheet" href="/styles/layout.css">
+  <link rel="stylesheet" href="/styles/pages.css">
+</head>
+<body data-page="evolution">
+  <header></header>
+
+  <main class="container">
+    <h1>⭐ Эволюция существ</h1>
+    <p>Выберите двух одинаковых существ с одинаковыми звёздами для слияния</p>
+
+    <div id="evolution-box" class="evolution-box">
+      <div class="slot" id="base-slot">Базовое существо</div>
+      <div class="slot" id="fodder-slot">Кормовое существо</div>
+    </div>
+
+    <div id="creatures-list" class="creatures-list"></div>
+
+    <button id="evolve-btn" disabled>✨ Эволюционировать</button>
+  </main>
+
+  <script type="module" src="/js/pages/evolution.page.js"></script>
+</body>
+</html>

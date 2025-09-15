@@ -1,7 +1,7 @@
-const { prisma } = require('../../db/client');
 
-exports.getWallet = async (userId) =>
-  prisma.wallet.findUnique({ where: { userId } });
-
-exports.addFunds = async (userId, amount) =>
-  prisma.wallet.update({ where: { userId }, data: { balance: { increment: Number(amount) } } });
+import { prisma } from '../../db/client.js';
+export async function getWallet(userId){
+  const w = await prisma.wallet.findUnique({ where: { userId } });
+  if(!w) throw new Error('Кошелек не найден');
+  return w;
+}

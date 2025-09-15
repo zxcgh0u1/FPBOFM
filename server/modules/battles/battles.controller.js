@@ -1,11 +1,14 @@
-const svc = require('./battles.service');
 
-exports.startBattle = async (req, res) => {
-  try { res.json(await svc.startBattle(req.user.id, req.body.opponentId)); }
-  catch (e) { res.status(400).json({ message: e.message }); }
-};
+import * as service from './battles.service.js';
 
-exports.listBattles = async (req, res) => {
-  try { res.json(await svc.listBattles(req.user.id)); }
-  catch (e) { res.status(400).json({ message: e.message }); }
-};
+async function history(req,res){
+  try{ res.json(await service.history(req.user.id)); }
+  catch(e){ res.status(400).json({ error:e.message }); }
+}
+
+async function start(req,res){
+  try{ res.json(await service.start(req.user.id, req.body.opponentId)); }
+  catch(e){ res.status(400).json({ error:e.message }); }
+}
+
+export default { history, start };

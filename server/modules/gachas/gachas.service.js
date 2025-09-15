@@ -1,25 +1,31 @@
-const { prisma } = require('../../db/client');
 
-async function rollSpec() {
+import { prisma } from '../../db/client.js';
+import { getRandomInt } from '../../utils/random.js';
+
+async function rollSpec(){
   const specs = await prisma.creatureSpec.findMany();
-  const sum = specs.reduce((s, x) => s + x.dropRate, 0);
-  let r = Math.random() * sum;
-  for (const s of specs) { r -= s.dropRate; if (r <= 0) return s; }
+  const total = specs.reduce((a,s)=>a+s.dropRate,0);
+  let roll = getRandomInt(1,total);
+  for(const s of specs){
+    roll -= s.dropRate;
+    if(roll<=0) return s;
+  }
   return specs[0];
 }
 
-async function openGeneric(userId, price) {
+async function openGeneric(userId, price){
   const wallet = await prisma.wallet.findUnique({ where: { userId } });
-  if (!wallet || wallet.balance < price) throw new Error('Недостаточно валюты');
+  if(!wallet || wallet.balance < price) throw new Error('Недостаточно валюты');
   const spec = await rollSpec();
 
-  const [, inst] = await prisma.$transaction([
-    prisma.wallet.update({ where: { userId }, data: { balance: { decrement: price } } }),
-    prisma.creatureInstance.create({ data: { ownerId: userId, specId: spec.id } })
+  const [w, inst] = await prisma.$transaction([
+    prisma.wallet.update({ where: { id: wallet.id }, data: { balance: { decrement: price } } }),
+    prisma.creatureInstance.create({ data: { ownerId: userId, specId: spec.id, stars: 1 }, include: { spec: true } }),
   ]);
-
-  return { instance: inst, spec };
+  return { instance: inst, spec, balance: w.balance };
 }
 
-exports.openEgg = async (userId) => openGeneric(userId, Number(process.env.GACHA_EGG_PRICE || 200));
-exports.openChest = async (userId) => openGeneric(userId, Number(process.env.GACHA_CHEST_PRICE || 1000));
+const openEgg = (userId) => openGeneric(userId, 50);
+const openChest = (userId) => openGeneric(userId, 200);
+
+export default { openEgg, openChest };

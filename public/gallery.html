@@ -1,27 +1,22 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>FPBOFM — Галерея</title>
-  <link rel="stylesheet" href="styles/base.css">
-  <link rel="stylesheet" href="styles/components.css">
-  <link rel="stylesheet" href="styles/layout.css">
-  <link rel="stylesheet" href="styles/pages.css">
+  <link rel="stylesheet" href="/styles/base.css" />
+  <link rel="stylesheet" href="/styles/components.css" />
+  <link rel="stylesheet" href="/styles/layout.css" />
+  <link rel="stylesheet" href="/styles/pages.css" />
 </head>
-<body>
-  <header></header>
-
+<body data-page="gallery">
+  <header id="app-header"></header>
   <main class="container">
-    <h1>Галерея существ</h1>
-    <p>Просмотри всех существ, которых можно выбить в игре.</p>
 
+    <h1>Галерея</h1>
     <div id="gallery-list" class="grid"></div>
-  </main>
 
-  <script type="module" src="js/pages/gallery.page.js"></script>
-  <script type="module">
-    import { renderHeader } from "./js/utils/header.js";
-    renderHeader();
-  </script>
+  </main>
+  <script type="module" src="/js/utils/main.js"></script>
 </body>
 </html>

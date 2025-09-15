@@ -1,7 +1,9 @@
-const { prisma } = require('../../db/client');
+import prisma from '../../db/client.js';
 
-exports.getMe = async (userId) =>
-  prisma.user.findUnique({ where: { id: userId }, include: { wallet: true } });
-
-exports.getAll = async () =>
-  prisma.user.findMany({ include: { wallet: true } });
+export default {
+  findById: (id) => prisma.user.findUnique({ where: { id } }),
+  findAll: () => prisma.user.findMany(),
+  create: (data) => prisma.user.create({ data }),
+  update: (id, data) => prisma.user.update({ where: { id }, data }),
+  remove: (id) => prisma.user.delete({ where: { id } }),
+};

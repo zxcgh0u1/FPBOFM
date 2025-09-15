@@ -1,45 +1,36 @@
-import { getProfile, logout } from '../api/auth.api.js';
-import { http } from '../api/http.js';
-console.log("header.js загружен");
 
-export async function renderHeader() {
-  console.log("✅ renderHeader() вызван");
-  const header = document.querySelector("header");
-  if (!header) {
-    console.warn("⚠️ <header> не найден");
-    return;}
-  if (!header) return;
+import * as http from '../api/http.js';
 
-  try {
-    const user = await getProfile();
+export async function renderHeader(){
+  const header = document.getElementById('app-header');
+  const me = await http.get('/auth/me').catch(()=>null);
 
-    header.innerHTML = `
-      <div class="logo">FPBOFM</div>
-      <nav>
-        <a href="gacha.html">Гача</a> 
-        <a href="creatures.html">Существа</a>
-        <a href="battles.html">Бои</a>
-        <a href="tasks.html">Ежедневки</a>
-        <a href="gallery.html">Галерея</a>
-        <a href="profile.html">Личный кабинет</a>
-        <a href="admin.html">Админ</a>
-        <span class="user-info">💰 ${user.wallet.balance} монет</span>
-        <a href="#" id="logout">Выйти</a>
-      </nav>
-    `;
+  header.innerHTML = `
+  <nav class="nav">
+    <div class="logo">🐍 FPBOFM</div>
+    <div class="menu">
+      <a href="/index.html">Главная</a>
+      <a href="/gacha.html">Гача</a>
+      <a href="/creatures.html">Существа</a>
+      <a href="/battles.html">Бои</a>
+      <a href="/tasks.html">Задания</a>
+      <a href="/gallery.html">Галерея</a>
+      <a href="/profile.html">Профиль</a>
+      ${me ? '<a id="logout" href="#">Выйти</a>' : '<a href="/login.html">Войти</a>'}
+    </div>
+  </nav>`;
 
-    document.querySelector('#logout').addEventListener('click', (e) => {
+  const path = location.pathname;
+  header.querySelectorAll('.menu a').forEach(a => {
+    if (a.getAttribute('href') === path) a.classList.add('active');
+  });
+
+  const logout = header.querySelector('#logout');
+  if (logout) {
+    logout.addEventListener('click', async (e) => {
       e.preventDefault();
-      logout();
-      window.location.href = 'login.html';
+      await http.post('/auth/logout', {});
+      location.href = '/login.html';
     });
-  } catch {
-    header.innerHTML = `
-      <div class="logo">FPBOFM</div>
-      <nav>
-        <a href="login.html">Войти</a>
-        <a href="register.html">Регистрация</a>
-      </nav>
-    `;
   }
 }

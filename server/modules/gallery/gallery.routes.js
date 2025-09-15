@@ -1,8 +1,11 @@
-const router = require('express').Router();
-const { authMiddleware } = require('../../auth/auth.middleware');
-const c = require('./gallery.controller');
 
-router.use(authMiddleware);
-router.get('/', c.list);
+import { Router } from 'express';
+import ctrl from './gallery.controller.js';
+import { authMiddleware } from '../../auth/auth.middleware.js';
 
-module.exports = router;
+const router = Router();
+
+router.get('/', ctrl.list);
+router.post('/', authMiddleware, ctrl.add);
+
+export default router;

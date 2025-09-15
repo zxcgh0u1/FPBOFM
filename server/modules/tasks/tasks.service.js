@@ -1,23 +1,22 @@
-const { prisma } = require('../../db/client');
 
-exports.list = async (userId) =>
-  prisma.userTask.findMany({ where: { userId }, include: { task: true } });
+import { prisma } from '../../db/client.js';
 
-exports.claimDaily = async (userId) => {
+async function list(userId){
+  const tasks = await prisma.task.findMany();
+  const my = await prisma.userTask.findMany({ where: { userId } });
+  return tasks.map(t => ({ ...t, done: !!my.find(m => m.taskId === t.id)?.done }));
+}
+
+async function claimDaily(userId){
   const user = await prisma.user.findUnique({ where: { id: userId } });
+  if(!user) throw new Error('Пользователь не найден');
 
-  const now = new Date();
-  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  const today = new Date(); today.setHours(0,0,0,0);
+  if(user.dailyClaimedAt && user.dailyClaimedAt >= today) throw new Error('Уже получено сегодня');
 
-  if (user.dailyClaimedAt && user.dailyClaimedAt >= today)
-    throw new Error('Уже получено сегодня');
+  await prisma.wallet.update({ where: { userId }, data: { balance: { increment: 50 } } });
+  await prisma.user.update({ where: { id: userId }, data: { dailyClaimedAt: new Date() } });
+  return { reward: 50 };
+}
 
-  const reward = Number(process.env.ECON_DAILY_REWARD || 500);
-
-  await prisma.$transaction([
-    prisma.user.update({ where: { id: userId }, data: { dailyClaimedAt: now } }),
-    prisma.wallet.update({ where: { userId }, data: { balance: { increment: reward } } })
-  ]);
-
-  return reward;
-};
+export default { list, claimDaily };

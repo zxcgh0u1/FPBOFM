@@ -1,11 +1,11 @@
-const service = require('./users.service');
 
-exports.getMe = async (req, res) => {
-  try { res.json(await service.getMe(req.user.id)); }
-  catch (e) { res.status(400).json({ message: e.message }); }
-};
+import { prisma } from '../../db/client.js';
 
-exports.getAll = async (_req, res) => {
-  try { res.json(await service.getAll()); }
-  catch (e) { res.status(400).json({ message: e.message }); }
-};
+async function me(req,res){
+  try{
+    const user = await prisma.user.findUnique({ where: { id: req.user.id }, include: { wallet: true } });
+    res.json({ id: user.id, email: user.email, username: user.username, wallet: user.wallet });
+  }catch(e){ res.status(400).json({ error: e.message }); }
+}
+
+export default { me };

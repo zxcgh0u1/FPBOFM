@@ -1,30 +1,27 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>FPBOFM — Вход</title>
-  <link rel="stylesheet" href="styles/base.css">
-  <link rel="stylesheet" href="styles/components.css">
-  <link rel="stylesheet" href="styles/layout.css">
-  <link rel="stylesheet" href="styles/pages.css">
+  <link rel="stylesheet" href="/styles/base.css" />
+  <link rel="stylesheet" href="/styles/components.css" />
+  <link rel="stylesheet" href="/styles/layout.css" />
+  <link rel="stylesheet" href="/styles/pages.css" />
 </head>
-<body>
-  <header></header>
-
+<body data-page="login">
+  <header id="app-header"></header>
   <main class="container">
-    <h1>Вход</h1>
-    <form id="login-form" class="card">
-      <input type="email" name="email" placeholder="Email" required>
-      <input type="password" name="password" placeholder="Пароль" required>
-      <button type="submit" class="btn">Войти</button>
-    </form>
-    <p>Нет аккаунта? <a href="register.html">Зарегистрируйся</a></p>
-  </main>
 
-  <script type="module" src="js/pages/login.page.js"></script>
-  <script type="module">
-    import { renderHeader } from "./js/utils/header.js";
-    renderHeader();
-  </script>
+    <h1>Вход</h1>
+    <form id="login-form" class="card form">
+      <label>Email <input type="email" name="email" required /></label>
+      <label>Пароль <input type="password" name="password" required /></label>
+      <button class="btn" type="submit">Войти</button>
+      <p class="muted">Нет аккаунта? <a href="/register.html">Регистрация</a></p>
+    </form>
+
+  </main>
+  <script type="module" src="/js/utils/main.js"></script>
 </body>
 </html>
