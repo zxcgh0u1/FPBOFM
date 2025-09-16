@@ -1,31 +1,72 @@
-
 import { prisma } from '../../db/client.js';
-import { getRandomInt } from '../../utils/random.js';
+import { EGG_COST, CHEST_COST, rarityWeights } from '../../config/economy.js';
 
-async function rollSpec(){
-  const specs = await prisma.creatureSpec.findMany();
-  const total = specs.reduce((a,s)=>a+s.dropRate,0);
-  let roll = getRandomInt(1,total);
-  for(const s of specs){
-    roll -= s.dropRate;
-    if(roll<=0) return s;
+// 🎲 Рандом по весам
+function getRandomRarity() {
+  const roll = Math.random() * 100;
+  let cumulative = 0;
+
+  for (const [rarity, weight] of Object.entries(rarityWeights)) {
+    cumulative += weight;
+    if (roll <= cumulative) return rarity;
   }
-  return specs[0];
+  return 'COMMON';
 }
 
-async function openGeneric(userId, price){
+// 🥚 Открыть яйцо
+export async function openEgg(userId) {
   const wallet = await prisma.wallet.findUnique({ where: { userId } });
-  if(!wallet || wallet.balance < price) throw new Error('Недостаточно валюты');
-  const spec = await rollSpec();
+  if (!wallet || wallet.balance < EGG_COST) {
+    throw new Error('Недостаточно монет для открытия яйца');
+  }
 
-  const [w, inst] = await prisma.$transaction([
-    prisma.wallet.update({ where: { id: wallet.id }, data: { balance: { decrement: price } } }),
-    prisma.creatureInstance.create({ data: { ownerId: userId, specId: spec.id, stars: 1 }, include: { spec: true } }),
-  ]);
-  return { instance: inst, spec, balance: w.balance };
+  await prisma.wallet.update({
+    where: { userId },
+    data: { balance: { decrement: EGG_COST } }, // ✅ исправлено
+  });
+
+  const rarity = getRandomRarity();
+  const spec = await prisma.creatureSpec.findFirst({ where: { rarity } });
+  if (!spec) throw new Error('Не найдено существо для данной редкости');
+
+  return prisma.creatureInstance.create({
+    data: {
+      ownerId: userId,
+      specId: spec.id,
+      hp: spec.baseHP,
+      atk: spec.baseATK,
+      def: spec.baseDEF,
+      stars: 1,
+    },
+    include: { spec: true },
+  });
 }
 
-const openEgg = (userId) => openGeneric(userId, 50);
-const openChest = (userId) => openGeneric(userId, 200);
+// 📦 Открыть сундук
+export async function openChest(userId) {
+  const wallet = await prisma.wallet.findUnique({ where: { userId } });
+  if (!wallet || wallet.balance < CHEST_COST) {
+    throw new Error('Недостаточно монет для открытия сундука');
+  }
 
-export default { openEgg, openChest };
+  await prisma.wallet.update({
+    where: { userId },
+    data: { balance: { decrement: CHEST_COST } }, // ✅ исправлено
+  });
+
+  const rarity = getRandomRarity();
+  const spec = await prisma.creatureSpec.findFirst({ where: { rarity } });
+  if (!spec) throw new Error('Не найдено существо для данной редкости');
+
+  return prisma.creatureInstance.create({
+    data: {
+      ownerId: userId,
+      specId: spec.id,
+      hp: spec.baseHP,
+      atk: spec.baseATK,
+      def: spec.baseDEF,
+      stars: 1,
+    },
+    include: { spec: true },
+  });
+}

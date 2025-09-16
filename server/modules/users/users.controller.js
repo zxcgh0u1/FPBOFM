@@ -1,11 +1,13 @@
+import service from './users.service.js';
 
-import { prisma } from '../../db/client.js';
-
-async function me(req,res){
-  try{
-    const user = await prisma.user.findUnique({ where: { id: req.user.id }, include: { wallet: true } });
-    res.json({ id: user.id, email: user.email, username: user.username, wallet: user.wallet });
-  }catch(e){ res.status(400).json({ error: e.message }); }
+export async function profile(req, res) {
+  try {
+    const user = await service.getProfile(req.user.id);
+    res.json(user);
+  } catch (err) {
+    console.error('Ошибка получения профиля:', err);
+    res.status(500).json({ error: 'Ошибка получения профиля' });
+  }
 }
 
-export default { me };
+export default { profile };

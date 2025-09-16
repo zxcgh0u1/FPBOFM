@@ -8,21 +8,26 @@ datasource db {
 }
 
 model User {
-  id           Int              @id @default(autoincrement())
-  email        String           @unique
+  id           Int                @id @default(autoincrement())
+  email        String             @unique
   username     String
   passwordHash String
   wallet       Wallet?
   creatures    CreatureInstance[]
   tasks        UserTask[]
-  battlesAsA   Battle[]         @relation("BattlesAsA")
-  battlesAsB   Battle[]         @relation("BattlesAsB")
-  battlesWon   Battle[]         @relation("BattlesWinner")
+
+  // связи с боями
+  battlesAsA   Battle[]           @relation("BattlePlayerA")
+  battlesAsB   Battle[]           @relation("BattlePlayerB")
+  battlesWon   Battle[]           @relation("BattleWinner")
+
+    dailyClaimedAt DateTime?
+
 }
 
 model Wallet {
   id     Int  @id @default(autoincrement())
-  coins  Int  @default(0)
+  balance Int   @default(0)
   userId Int  @unique
   user   User @relation(fields: [userId], references: [id])
 }
@@ -68,15 +73,19 @@ model UserTask {
 }
 
 model Battle {
-  id        Int   @id @default(autoincrement())
-  aId       Int
-  bId       Int
-  winnerId  Int?
+  id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
-  playerA   User @relation("BattlesAsA", fields: [aId], references: [id])
-  playerB   User @relation("BattlesAsB", fields: [bId], references: [id])
-  winner    User? @relation("BattlesWinner", fields: [winnerId], references: [id])
+
+  // Игроки
+  playerA   Int
+  playerB   Int
+  winnerId  Int?
+
+  playerAUser User   @relation("BattlePlayerA", fields: [playerA], references: [id])
+  playerBUser User   @relation("BattlePlayerB", fields: [playerB], references: [id])
+  winner      User?  @relation("BattleWinner", fields: [winnerId], references: [id])
 }
+
 
 model Gallery {
   id     Int          @id @default(autoincrement())

@@ -1,32 +1,34 @@
 import * as service from './battles.service.js';
 
+// Получить историю боёв
 export async function getHistory(req, res) {
   try {
     const userId = req.user.id;
-    const battles = await service.getBattleHistory(userId);
+    const battles = await service.getHistory(userId);
     res.json(battles);
   } catch (err) {
     console.error('Ошибка истории боёв:', err);
-    res.status(400).json({ error: 'Ошибка при получении истории боёв' });
+    res.status(500).json({ error: 'Не удалось загрузить историю боёв' });
   }
 }
 
+// Начать новый бой
 export async function startBattle(req, res) {
   try {
-    const userId = req.user.id;
     const { opponentId } = req.body;
+    const userId = req.user.id;
 
     if (!opponentId) {
-      return res.status(400).json({ error: 'Не указан ID противника' });
-    }
-    if (opponentId === userId) {
-      return res.status(400).json({ error: 'Нельзя сражаться с самим собой' });
+      return res.status(400).json({ error: 'Укажите ID соперника' });
     }
 
-    const battle = await service.createBattle(userId, opponentId);
+    // ❗️ временно победителя выбираем случайно
+    const winnerId = Math.random() > 0.5 ? userId : opponentId;
+
+    const battle = await service.createBattle(userId, opponentId, winnerId);
     res.json(battle);
   } catch (err) {
-    console.error('Ошибка создания боя:', err);
-    res.status(400).json({ error: 'Ошибка при создании боя' });
+    console.error('Ошибка старта боя:', err);
+    res.status(500).json({ error: 'Не удалось начать бой' });
   }
 }

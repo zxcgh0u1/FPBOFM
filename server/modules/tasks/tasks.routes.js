@@ -1,12 +1,10 @@
-
 import { Router } from 'express';
-import { authMiddleware } from '../../auth/auth.middleware.js';
-import ctrl from './tasks.controller.js';
+import * as ctrl from './tasks.controller.js';
+import { authMiddleware } from '../../auth/auth.middleware.js'; // 👈 так правильно
 
 const router = Router();
-router.use(authMiddleware);
 
-router.get('/', ctrl.list);
-router.post('/daily', ctrl.daily);
+router.get('/', authMiddleware, ctrl.list);
+router.post('/daily', authMiddleware, ctrl.daily);
 
 export default router;

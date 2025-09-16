@@ -1,13 +1,25 @@
+import { openEgg, openChest } from './gachas.service.js';
 
-import service from './gachas.service.js';
-
-async function egg(req, res){
-  try{ const r = await service.openEgg(req.user.id); res.json(r); }
-  catch(e){ res.status(400).json({ error: e.message }); }
+export async function egg(req, res) {
+  try {
+    const userId = Number(req.user.id);
+    const result = await openEgg(userId);
+    return res.json(result);
+  } catch (e) {
+    console.error('Ошибка гачи (яйцо):', e);
+    return res.status(400).json({ message: e.message || 'Ошибка гачи' });
+  }
 }
-async function chest(req, res){
-  try{ const r = await service.openChest(req.user.id); res.json(r); }
-  catch(e){ res.status(400).json({ error: e.message }); }
+
+export async function chest(req, res) {
+  try {
+    const userId = Number(req.user.id);
+    const result = await openChest(userId);
+    return res.json(result);
+  } catch (e) {
+    console.error('Ошибка гачи (сундук):', e);
+    return res.status(400).json({ message: e.message || 'Ошибка гачи' });
+  }
 }
 
 export default { egg, chest };

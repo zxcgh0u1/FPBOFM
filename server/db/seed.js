@@ -35,11 +35,11 @@ async function main() {
       email: 'admin@example.com',
       username: 'admin',
       passwordHash,
-      wallet: { create: { coins: 100000 } }, // фикс: coins вместо balance
+      wallet: { create: { coins: 100000 } } // 💰 стартовые монеты
     }
   });
 
-  console.log('>> Создание инстансов...');
+  console.log('>> Создание CreatureInstance...');
   for (let i = 0; i < 2; i++) {
     const spec = specs[i];
     await prisma.creatureInstance.create({
@@ -66,15 +66,15 @@ async function main() {
 
   console.log('>> Галерея...');
   const gallery = [
-    { specId: specs[0].id }, // Гоблин
-    { specId: specs[1].id }, // Волк
-    { specId: specs[3].id }, // Дракон
+    { specId: specs[0].id },
+    { specId: specs[1].id },
+    { specId: specs[3].id },
   ];
   for (const g of gallery) {
     await prisma.gallery.create({ data: g });
   }
 
-  console.log('✅ Сид завершён: admin@example.com / admin123');
+  console.log('✅ Сид завершён. Доступ: admin@example.com / admin123');
 }
 
 main()

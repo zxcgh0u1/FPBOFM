@@ -1,12 +1,11 @@
-
 import { Router } from 'express';
 import { authMiddleware } from '../../auth/auth.middleware.js';
-import ctrl from './gachas.controller.js';
+import controller from './gachas.controller.js';
 
 const router = Router();
 router.use(authMiddleware);
 
-router.post('/egg', ctrl.egg);
-router.post('/chest', ctrl.chest);
+router.post('/egg', controller.egg);
+router.post('/chest', controller.chest);
 
 export default router;

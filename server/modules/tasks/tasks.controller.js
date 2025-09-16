@@ -1,14 +1,21 @@
-
 import service from './tasks.service.js';
 
-async function list(req,res){
-  try{ res.json(await service.list(req.user.id)); }
-  catch(e){ res.status(400).json({ error:e.message }); }
-}
+export const list = async (req, res) => {
+  try {
+    const tasks = await service.list(req.user.id);
+    res.json(tasks);
+  } catch (err) {
+    console.error('Ошибка получения заданий:', err);
+    res.status(500).json({ message: 'Ошибка получения заданий' });
+  }
+};
 
-async function daily(req,res){
-  try{ res.json(await service.claimDaily(req.user.id)); }
-  catch(e){ res.status(400).json({ error:e.message }); }
-}
-
-export default { list, daily };
+export const daily = async (req, res) => {
+  try {
+    const result = await service.claimDaily(req.user.id);
+    res.json(result);
+  } catch (err) {
+    console.error('Ошибка ежедневной награды:', err);
+    res.status(500).json({ message: 'Ошибка ежедневной награды' });
+  }
+};

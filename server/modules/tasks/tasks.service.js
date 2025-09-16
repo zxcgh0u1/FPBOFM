@@ -1,22 +1,45 @@
+import prisma from '../../db/client.js';
 
-import { prisma } from '../../db/client.js';
+const list = async (userId) => {
+  return prisma.task.findMany({
+    include: {
+      userTasks: {
+        where: { userId }
+      }
+    }
+  });
+};
 
-async function list(userId){
-  const tasks = await prisma.task.findMany();
-  const my = await prisma.userTask.findMany({ where: { userId } });
-  return tasks.map(t => ({ ...t, done: !!my.find(m => m.taskId === t.id)?.done }));
-}
+const claimDaily = async (userId) => {
+  const user = await prisma.user.findUnique({
+    where: { id: userId },
+    include: { wallet: true }
+  });
 
-async function claimDaily(userId){
-  const user = await prisma.user.findUnique({ where: { id: userId } });
-  if(!user) throw new Error('Пользователь не найден');
+  if (!user) {
+    throw new Error('Пользователь не найден');
+  }
 
-  const today = new Date(); today.setHours(0,0,0,0);
-  if(user.dailyClaimedAt && user.dailyClaimedAt >= today) throw new Error('Уже получено сегодня');
+  const now = new Date();
+  const lastClaim = user.dailyClaimedAt;
 
-  await prisma.wallet.update({ where: { userId }, data: { balance: { increment: 50 } } });
-  await prisma.user.update({ where: { id: userId }, data: { dailyClaimedAt: new Date() } });
-  return { reward: 50 };
-}
+  if (lastClaim && lastClaim.toDateString() === now.toDateString()) {
+    throw new Error('Награда за сегодня уже получена');
+  }
+
+  await prisma.user.update({
+    where: { id: userId },
+    data: {
+      dailyClaimedAt: now,
+      wallet: {
+        update: {
+          coins: { increment: 500 }
+        }
+      }
+    }
+  });
+
+  return { success: true, reward: 500 };
+};
 
 export default { list, claimDaily };

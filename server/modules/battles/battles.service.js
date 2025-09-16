@@ -1,43 +1,35 @@
 import { prisma } from '../../db/client.js';
 
-export async function getBattleHistory(userId) {
-  return prisma.battle.findMany({
-    where: {
-      OR: [
-        { playerAId: userId },
-        { playerBId: userId }
-      ]
+// Создать новый бой
+export async function createBattle(playerAId, playerBId, winnerId) {
+  return prisma.battle.create({
+    data: {
+      playerA: playerAId,
+      playerB: playerBId,
+      winnerId,
     },
     include: {
-      playerA: true,
-      playerB: true
+      playerAUser: true,
+      playerBUser: true,
+      winner: true,
     },
-    orderBy: { createdAt: 'desc' }
   });
 }
 
-export async function createBattle(userId, opponentId) {
-  // Проверим, что оппонент существует
-  const opponent = await prisma.user.findUnique({
-    where: { id: opponentId }
-  });
-
-  if (!opponent) {
-    throw new Error('Противник не найден');
-  }
-
-  // ⚔️ Логика победителя (пока для теста — создатель всегда побеждает)
-  const winnerId = userId;
-
-  return prisma.battle.create({
-    data: {
-      playerAId: userId,
-      playerBId: opponentId,
-      winnerId
+// Получить историю боёв
+export async function getHistory(userId) {
+  return prisma.battle.findMany({
+    where: {
+      OR: [
+        { playerA: userId },
+        { playerB: userId },
+      ],
     },
     include: {
-      playerA: true,
-      playerB: true
-    }
+      playerAUser: true,
+      playerBUser: true,
+      winner: true,
+    },
+    orderBy: { createdAt: 'desc' },
   });
 }
